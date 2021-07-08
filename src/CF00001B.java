@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -35,24 +34,27 @@ import java.util.regex.Pattern;
 
 public class CF00001B {
 
-    static final char[] CHARS = new char[]{
-            'Z', 'A', 'B', 'C', 'D', 'E', 'F',
-            'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+    static final char[] CHARS1 = new char[]{
+            'Z', 'A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M','N', 'O', 'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y'
     };
 
-    static final int BASE = CHARS.length;
+    static final int BASE1 = CHARS1.length;
 
-    static final int MAX_CHAR_QUO = 26;
+    static final char[] CHARS2 = new char[]{
+            '@','A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M','N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y','Z'
+    };
+
+    static final int BASE2 = CHARS2.length;
 
     static final int[] ASC_N = {
             1,
-            MAX_CHAR_QUO,
-            MAX_CHAR_QUO * MAX_CHAR_QUO,
-            MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO,
-            MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO,
-            MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO * MAX_CHAR_QUO
+            BASE1,
+            BASE1 * BASE1,
+            BASE1 * BASE1 * BASE1,
+            BASE1 * BASE1 * BASE1 * BASE1,
+            BASE1 * BASE1 * BASE1 * BASE1 * BASE1
     };
 
     public static void main(String[] args) throws IOException {
@@ -81,7 +83,7 @@ public class CF00001B {
         return converterFunction.apply(pStr);
     }
 
-    Function<String, String> convertRCToA1 = pStringForConversion -> {
+    public Function<String, String> convertRCToA1 = pStringForConversion -> {
         String[] strs = pStringForConversion
                 .replace("R", "")
                 .split("C");
@@ -91,7 +93,7 @@ public class CF00001B {
         return columnName + rowNumber;
     };
 
-    Function<String, String> convertA1ToRC = pStringForConversion -> {
+    public Function<String, String> convertA1ToRC = pStringForConversion -> {
         String letters = new StringBuilder(
                 pStringForConversion
                         .replaceAll("[0-9]", "")
@@ -100,7 +102,7 @@ public class CF00001B {
         int indexInN = 0;
         int columnNumber = 0;
         for (char letter : letters.toCharArray()) {
-            int letterIndexInChars = Arrays.binarySearch(CHARS, letter);
+            int letterIndexInChars = Arrays.binarySearch(CHARS2, letter);
             columnNumber = columnNumber + ASC_N[indexInN] * letterIndexInChars;
             indexInN++;
         }
@@ -112,17 +114,17 @@ public class CF00001B {
         StringBuilder sb = new StringBuilder();
 
         while (true) {
-            if (columnNumber < BASE) {
-                sb.append(CHARS[columnNumber]);
+            if (columnNumber < BASE1) {
+                sb.append(CHARS1[columnNumber]);
                 break;
             }
-            int frequent = columnNumber / BASE;
-            int remainder = columnNumber % BASE;
+            int frequent = columnNumber / BASE1;
+            int remainder = columnNumber % BASE1;
             if (remainder == 0) {
-                if (columnNumber >= BASE) {
+                if (columnNumber >= BASE1) {
                     columnNumber = frequent - 1;
                     if (columnNumber == 0) {
-                        sb.append(CHARS[remainder]);
+                        sb.append(CHARS1[remainder]);
                         break;
                     }
                 } else {
@@ -131,7 +133,7 @@ public class CF00001B {
             } else {
                 columnNumber = frequent;
             }
-            sb.append(CHARS[remainder]);
+            sb.append(CHARS1[remainder]);
         }
         return sb.reverse().toString();
     }

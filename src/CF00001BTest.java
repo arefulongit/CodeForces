@@ -7,13 +7,16 @@ class CF00001BTest {
     void main() {
     }
 
-    @Test
-    void generate() {
-        CF00001B cf = new CF00001B();
-    }
 
     @Test
-    void getDecode() {
+    void convertA1ToRC() {
+        CF00001B cf = new CF00001B();
+        String exp1 = "R1C1";
+        String act1 = cf.convertA1ToRC.apply("A1");
+        Assert.assertEquals(exp1, act1);
+        String exp2 = "R23C55";
+        String act2 = cf.convertA1ToRC.apply("BC23");
+        Assert.assertEquals(exp1, act1);
     }
 
      @Test
